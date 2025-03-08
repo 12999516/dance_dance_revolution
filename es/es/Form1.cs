@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using NAudio.Wave;
+using NAudio.Wave.Asio;
 
 namespace es
 {
@@ -22,20 +24,24 @@ namespace es
         Random random = new Random(Environment.TickCount);
         IWavePlayer waveOutDevice;
         AudioFileReader audioFileReader;
-
+        string filePath;
 
         public Form1()
         {
+            
             InitializeComponent();
             updateUI();
-            string filePath = @"C:\Users\Sebastiano\Desktop\ddr-main\thunderstruck.mp3";
+            // filePath = @"C:\Users\Sebastiano\Desktop\ddr-main\thunderstruck.mp3";
+            string x = Directory.GetCurrentDirectory();
+            filePath = Path.Combine(Directory.GetCurrentDirectory(), "thunderstruck.mp3");
+
             PlayMusicInLoop(filePath);
 
         }
 
 
         private void PlayMusicInLoop(string filePath)
-        {
+        { 
             waveOutDevice = new WaveOutEvent();
             audioFileReader = new AudioFileReader(filePath);
 
@@ -64,7 +70,11 @@ namespace es
 
             
             waveOutDevice = new WaveOutEvent();
-            audioFileReader = new AudioFileReader("C:\\Users\\Sebastiano\\Desktop\\ddr-main\\thunderstruck.mp3");
+
+            string x = Directory.GetCurrentDirectory();
+            audioFileReader = new AudioFileReader(filePath);
+
+            //audioFileReader = new AudioFileReader("C:\\Users\\Sebastiano\\Desktop\\ddr-main\\thunderstruck.mp3");
 
             waveOutDevice.Init(audioFileReader);
             waveOutDevice.Play();
